@@ -9,12 +9,14 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var categoryText: UITextField!
+    @IBOutlet weak var categoryPicker: UIPickerView!
 
-    //Realmインスタンスを取得する
+    var categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
+    
+    //Realmインスタンスを取得する    
     let realm = try! Realm()
     
     //DB内のタスクが格納されるリスト
@@ -25,7 +27,7 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        categoryText.delegate = self
+        //categoryText.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -110,7 +112,7 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        categoryText.text = ""
+        //categoryText.text = ""
         tableView.reloadData()
     }
     
@@ -143,5 +145,31 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
         }
         return true
     }
+    
+    //UIPickerView
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryArray.count + 1
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if row == 0 {
+            return "（すべて）"
+        } else {
+            return categoryArray[row - 1].title
+        }
+    }
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if 0 == row {
+            taskArray = try! Realm().objects(Task).sorted("date",ascending: false)
+        }else{
+            print("selected: \(row), \(categoryArray[row - 1].title)")
+            taskArray = try! Realm().objects(Task).filter("category.id = \(categoryArray[row - 1].id)").sorted("date",ascending: false)
+        }
+        tableView.reloadData()
+    }
+
 }
 

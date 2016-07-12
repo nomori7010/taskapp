@@ -9,15 +9,19 @@
 import UIKit
 import RealmSwift
 
-class InputViewController: UIViewController {
+class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentsTextView: UITextView!
-    @IBOutlet weak var categoryTextField: UITextField!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var categoryPicker: UIPickerView!
     
     let realm = try! Realm()
     var task: Task!
+    var category: Category!
+    var categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
+    
+    //var categoryArray = ["買い物","メール","電話"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +35,28 @@ class InputViewController: UIViewController {
         contentsTextView.layer.borderWidth = 1
         contentsTextView.layer.cornerRadius = 8
         contentsTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
-        categoryTextField.text = task.category
+        
+        for i in 0 ..< categoryArray.count {
+            if categoryArray[i].id == task.category!.id {
+                categoryPicker.selectRow(i, inComponent: 0, animated: false)
+                break
+            }
+        }
+        
+        //categoryTextField.text = task.category
         datePicker.date = task.date
         
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryArray.count
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categoryArray[row].title
     }
     func dismissKeyboard(){
         //キーボードを閉じる
@@ -50,13 +73,17 @@ class InputViewController: UIViewController {
             try! realm.write {
                 self.task.title = self.titleTextField.text!
                 self.task.contents = self.contentsTextView.text
-                self.task.category = self.categoryTextField.text!
+                self.task.category = categoryArray[self.categoryPicker.selectedRowInComponent(0)]
                 self.task.date = self.datePicker.date
                 self.realm.add(self.task,update: true)
             }
             setNotification(task)
         }
         super.viewWillDisappear(animated)
+    }
+    override func viewWillAppear(animated: Bool) {
+        categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
+        categoryPicker.reloadAllComponents()
     }
 
     //タスクのローカル通知を設定する

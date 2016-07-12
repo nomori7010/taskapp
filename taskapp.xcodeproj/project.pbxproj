@@ -14,6 +14,7 @@
 		8D63B07D1D2A2BB000C3703D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D63B07C1D2A2BB000C3703D /* Assets.xcassets */; };
 		8D63B0801D2A2BB000C3703D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D63B07E1D2A2BB000C3703D /* LaunchScreen.storyboard */; };
 		8D63B0881D2A381400C3703D /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D63B0871D2A381400C3703D /* InputViewController.swift */; };
+		8DA1C0531D338584009B093D /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA1C0521D338584009B093D /* AddCategoryViewController.swift */; };
 		8DA6234B1D2B4A570031413D /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA6234A1D2B4A570031413D /* Task.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		8D63B07F1D2A2BB000C3703D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D63B0811D2A2BB000C3703D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D63B0871D2A381400C3703D /* InputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		8DA1C0521D338584009B093D /* AddCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
 		8DA6234A1D2B4A570031413D /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		C076ABFE123AA0B686C0E518 /* Pods-taskapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-taskapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-taskapp/Pods-taskapp.release.xcconfig"; sourceTree = "<group>"; };
 		CC15A605C3A53B6C7F67BEE4 /* Pods_taskapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_taskapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 				8D63B0771D2A2BB000C3703D /* ViewController.swift */,
 				8D63B0791D2A2BB000C3703D /* Main.storyboard */,
 				8D63B0871D2A381400C3703D /* InputViewController.swift */,
+				8DA1C0521D338584009B093D /* AddCategoryViewController.swift */,
 				8D63B07C1D2A2BB000C3703D /* Assets.xcassets */,
 				8D63B07E1D2A2BB000C3703D /* LaunchScreen.storyboard */,
 				8D63B0811D2A2BB000C3703D /* Info.plist */,
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DA6234B1D2B4A570031413D /* Task.swift in Sources */,
+				8DA1C0531D338584009B093D /* AddCategoryViewController.swift in Sources */,
 				8D63B0881D2A381400C3703D /* InputViewController.swift in Sources */,
 				8D63B0781D2A2BB000C3703D /* ViewController.swift in Sources */,
 				8D63B0761D2A2BB000C3703D /* AppDelegate.swift in Sources */,

@@ -22,7 +22,7 @@ class Task:Object{
     dynamic var date = NSDate()
     
     //カテゴリ
-    dynamic var category = ""
+    dynamic var category:Category? = Category()
     
     /*
     idをプライマリキーとして設定
@@ -30,4 +30,19 @@ class Task:Object{
     override static func primaryKey() -> String? {
         return "id"
     }
+}
+class Category:Object{
+    //管理用ID　プライマリキー
+    dynamic var id = 0
+    
+    //
+    dynamic var title = ""
+    
+    /*
+     idをプライマリキーとして設定
+     */
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+
 }
