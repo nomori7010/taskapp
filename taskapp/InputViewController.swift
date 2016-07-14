@@ -15,14 +15,18 @@ class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDat
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var categoryPicker: UIPickerView!
-    
-    let realm = try! Realm()
+    /*
+    @IBAction func addCategory(sender: UIButton) {
+        let storyboard:UIStoryboard = self.storyboard!
+        let categoryViewController = storyboard.instantiateViewControllerWithIdentifier("category") as! AddCategoryViewController
+        self.presentViewController(categoryViewController, animated: true, completion: nil)
+    }
+    */
+    var realm = try! Realm()
     var task: Task!
-    var category: Category!
+    let category = Category()
     var categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
-    
-    //var categoryArray = ["買い物","メール","電話"]
-    
+    var segueIdentifier = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,14 +40,20 @@ class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDat
         contentsTextView.layer.cornerRadius = 8
         contentsTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
         
+        if categoryArray.count == 0 {
+            try! realm.write({
+                category.id = 0
+                category.title = "(カテゴリなし)"
+                self.realm.add(category)
+            })
+        }
+        
         for i in 0 ..< categoryArray.count {
             if categoryArray[i].id == task.category!.id {
                 categoryPicker.selectRow(i, inComponent: 0, animated: false)
                 break
             }
         }
-        
-        //categoryTextField.text = task.category
         datePicker.date = task.date
         
     }
@@ -69,7 +79,7 @@ class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDat
     }
     
     override func viewWillDisappear(animated: Bool) {
-        if self.titleTextField.text! != "" {
+        if self.titleTextField.text! != "" && self.segueIdentifier == "" {
             try! realm.write {
                 self.task.title = self.titleTextField.text!
                 self.task.contents = self.contentsTextView.text
@@ -82,6 +92,7 @@ class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDat
         super.viewWillDisappear(animated)
     }
     override func viewWillAppear(animated: Bool) {
+        self.segueIdentifier = ""
         categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
         categoryPicker.reloadAllComponents()
     }
@@ -106,5 +117,8 @@ class InputViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDat
         notification.userInfo = ["id":task.id]
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
+    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        self.segueIdentifier = segue.identifier!
     }
 }

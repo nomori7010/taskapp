@@ -13,21 +13,19 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var categoryPicker: UIPickerView!
-
-    var categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
     
     //Realmインスタンスを取得する    
     let realm = try! Realm()
+    
     
     //DB内のタスクが格納されるリスト
     //日付近い順でソート
     //移行内容をアップデートするとリスト内は自動的に更新される。
     var taskArray = try! Realm().objects(Task).sorted("date",ascending: false)
+    var categoryArray = try! Realm().objects(Category).sorted("id",ascending: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //categoryText.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,6 +112,7 @@ class ViewController: UIViewController ,UITableViewDelegate,UITableViewDataSourc
         super.viewWillAppear(animated)
         //categoryText.text = ""
         tableView.reloadData()
+        categoryPicker.reloadAllComponents()
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
